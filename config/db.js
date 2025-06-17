@@ -5,8 +5,8 @@ if (process.env.NODE_ENV !== "production") {
  dotenv.config() // Hanya load .env saat di lokal
 }
 
-console.log("SUPABASE_URL:", process.env.SUPABASE_URL) // debug
-console.log("SUPABASE_SERVICE_ROLE_KEY:", process.env.SUPABASE_SERVICE_ROLE_KEY) // debug
+// console.log("SUPABASE_URL:", process.env.SUPABASE_URL) // debug
+// console.log("SUPABASE_SERVICE_ROLE_KEY:", process.env.SUPABASE_SERVICE_ROLE_KEY) // debug
 
 const supabaseUrl = process.env.SUPABASE_URL
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
