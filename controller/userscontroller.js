@@ -45,6 +45,7 @@ class UsersController {
     async GoogleLoginController(req, res) {
         try {
             const { token } = req.body
+
             if (!token) {
                 return res.status(400).json({ message: "Token tidak valid" })
             }
@@ -62,12 +63,7 @@ class UsersController {
                 success: true,
                 message: "Berhasil login",
                 token: jwtToken,
-                user: {
-                    user_id: user.id,
-                    username: user.username,
-                    email: user.email,
-                    nama: user.nama
-                }
+                user
             })
         } catch (error) {
             return res.status(400).json({ message: error.message })
@@ -105,8 +101,7 @@ class UsersController {
         try {
             const { user_id } = req.params
             const { username, email, password, nama, alamat, tanggal_lahir, umur, telepon } = req.body
-            const user = await UsersService.UpdateUserService({
-                user_id,
+            const updatedData = {
                 username,
                 email,
                 password,
@@ -115,7 +110,8 @@ class UsersController {
                 tanggal_lahir,
                 umur,
                 telepon
-            })
+            }
+            const user = await UsersService.UpdateUserService({ user_id,updatedData })
             res.status(200).json({
                 success: true,
                 message: "Berhasil mengupdate data user",

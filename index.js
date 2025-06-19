@@ -4,7 +4,7 @@ import dotenv from "dotenv"
 import userRouter from "./route/usersroute.js"
 import sessionRouter from "./route/sessionsroute.js"
 import trakingRouter from "./route/trakingroute.js"
-// import ngrok from "ngrok" // <– Tambahkan import ini
+import ngrok from "ngrok" // <– Tambahkan import ini
 
 dotenv.config()
 
@@ -29,16 +29,16 @@ app.use((err, req, res, next) => {
 
 app.listen(port, "0.0.0.0", async () => {
  console.log(`Server is running on http://0.0.0.0:${port}`)
-//  if (process.env.NODE_ENV === "development") {
-//   try {
-//    await ngrok.authtoken(process.env.NGROK_AUTHTOKEN)
-//    const url = await ngrok.connect({
-//     addr: port,
-//     proto: "http"
-//    })
-//    console.log("Ngrok URL:", url)
-//   } catch (error) {
-//    console.error("Ngrok error:", error)
-//   }
-//  }
+ if (process.env.NODE_ENV === "development") {
+  try {
+   await ngrok.authtoken(process.env.NGROK_AUTHTOKEN)
+   const url = await ngrok.connect({
+    addr: port,
+    proto: "http"
+   })
+   console.log("Ngrok URL:", url)
+  } catch (error) {
+   console.error("Ngrok error:", error)
+  }
+ }
 })
