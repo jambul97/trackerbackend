@@ -30,7 +30,8 @@ const rateLimiter = {
 class TrakingController {
     async CreateTrakingController(req, res) {
         try {
-            const { tracking_session_id, timestamp, latitude, longitude, jalur_id, nama_jalur, id_pos, nama_pos } = req.body
+            const { tracking_session_id, timestamp, latitude, longitude, jalur_id, nama_jalur, id_pos, nama_pos, keterangan } = req.body
+
             const result = await TrakingService.CreateTrakingService({
                 tracking_session_id,
                 timestamp,
@@ -39,7 +40,8 @@ class TrakingController {
                 jalur_id,
                 nama_jalur,
                 id_pos,
-                nama_pos
+                nama_pos,
+                keterangan
             })
             res.status(200).json({ messege: "log berhasil di tambahkan", data: result })
         } catch (error) {

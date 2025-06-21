@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 import userRouter from "./route/usersroute.js"
 import sessionRouter from "./route/sessionsroute.js"
 import trakingRouter from "./route/trakingroute.js"
+import adminRouter from "./route/adminroute.js"
 import ngrok from "ngrok" // <– Tambahkan import ini
 
 dotenv.config()
@@ -14,6 +15,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 const port = process.env.PORT || 3001
 
+app.use("/admin", adminRouter)
 app.use("/users", userRouter)
 app.use("/sessions", sessionRouter)
 app.use("/tracking", trakingRouter)
