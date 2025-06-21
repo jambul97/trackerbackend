@@ -4,9 +4,12 @@ class AdminController {
     async SignupController(req, res) {
         try {
             const {username, email, password} = req.body
+            console.log("from controller", req.body)
             const adminData = await AdminService.SignupService({username, email, password})
+            console.log("from controller", adminData)
             res.status(200).json({messege: "Admin berhasil didaftarkan", data: adminData})
         } catch (error) {
+            console.log(error.message)
             res.status(500).json({messege: error.message})
         }
     }
