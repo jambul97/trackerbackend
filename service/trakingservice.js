@@ -1,5 +1,7 @@
 import TrakingModel from "../model/trakingmodel.js"
 import db from "../config/db.js"
+import { getLocalTimestamp, convertToLocal } from "../utils/time.js"
+
 class TrakingService {
  async CreateTrakingService({
   tracking_session_id,
@@ -13,6 +15,7 @@ class TrakingService {
   keterangan
  }) {
   try {
+   timestamp = convertToLocal(timestamp)
    if (!tracking_session_id) {
     throw new Error("tracking_session_id is required")
    }
@@ -71,6 +74,7 @@ class TrakingService {
 
    const processedData = trakingdata.map((tracking) => ({
     ...tracking,
+    timestamp: convertToLocal(tracking.timestamp),
     id_pos: tracking.id_pos === null ? null : tracking.id_pos,
     nama_pos: tracking.id_pos === null ? "dalam pendakian" : tracking.nama_pos
    }))

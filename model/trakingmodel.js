@@ -89,13 +89,13 @@ class TrakingModel {
     `
             user_id,
             nama,
-            telpon,
+            telepon,
             tracking_session:tracking_sessions(
               tracking_session_id,
               start_time,
               end_time,
               status,
-              traking_log(
+              tracking_log(
                 tracking_log_id,
                 tracking_session_id,
                 timestamp,
@@ -110,7 +110,6 @@ class TrakingModel {
           `
    )
    .eq("user_id", user_id)
-   .maybesingle()
 
   if (error) {
    throw new Error(error.message)
