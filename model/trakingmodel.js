@@ -82,7 +82,7 @@ class TrakingModel {
   return data
  }
 
- async GetTrakingByuUserIdModel(user_id) {
+ async GetTrakingByUserIdModel(user_id) {
   const {data, error} = await db
    .from("users")
    .select(
