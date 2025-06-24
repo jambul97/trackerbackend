@@ -30,17 +30,31 @@ class AdminService {
   }
  }
 
- async LoginService({usernameOremail, password}) {
-  const admin = await AdminModel.FindAdminModel({usernameOremail})
-  if (!admin || !admin.password) {
-   throw new Error("Username atau password salah")
+ async LoginService({username, password}) {
+  try {
+   console.log("FROM SERVICE REQ", {username, password})
+   if (!username || !password) {
+    throw new Error("Username dan password diperlukan")
+   }
+
+   const adminData = await AdminModel.LoginModel(username)
+   console.log("from service", adminData)
+
+   if (!adminData) {
+    throw new Error("Username atau password salah")
+   }
+
+   const isPasswordValid = await bcrypt.compare(password, adminData.password)
+   if (!isPasswordValid) {
+    throw new Error("Password salah")
+   }
+
+   const token = jwt.sign({adminId: adminData.id}, process.env.JWT_SECRET, {expiresIn: "7d"})
+   return {token, ...adminData}
+  } catch (error) {
+   console.log("error from service", error.message)
+   throw new Error(error.message)
   }
-  const isPasswordValid = await bcrypt.compare(password, admin.password)
-  if (!isPasswordValid) {
-   throw new Error("Password salah")
-  }
-  const token = jwt.sign({adminId: admin.id}, process.env.JWT_SECRET, {expiresIn: "7d"})
-  return {token, admin}
  }
 }
 

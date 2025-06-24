@@ -3,7 +3,8 @@ import express from "express"
 
 const router = express.Router()
 
-router.post("/signup", AdminController.SignupController)
 router.post("/login", AdminController.LoginController)
+router.post("/signup", AdminController.SignupController)
+
 
 export default router

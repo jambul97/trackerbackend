@@ -4,7 +4,8 @@ class SessionService {
  async CreateSessionService({user_id, jalur_id, nama_jalur}) {
   try {
    const start_time = new Date().toISOString()
-   const session = await SessionModel.CreateSessionModel({user_id, start_time, jalur_id, nama_jalur})
+   const status = "mulai pendakian"
+   const session = await SessionModel.CreateSessionModel({user_id, start_time, jalur_id, nama_jalur, status})
    return session
   } catch (error) {
    throw new Error(error.message)
@@ -17,7 +18,8 @@ class SessionService {
     throw new Error("tracking_session_id is required")
    }
    const end_time = new Date().toISOString()
-   const session = await SessionModel.EndSessionModel({tracking_session_id, end_time})
+   const status = "pendakian berakhir"
+   const session = await SessionModel.EndSessionModel({tracking_session_id, end_time, status})
    return session
   } catch (error) {
    throw new Error(error.message)

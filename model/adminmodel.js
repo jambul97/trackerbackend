@@ -10,14 +10,15 @@ class AdminModel {
   return data
  }
 
- async LoginModel({usernameOremail}) {
+ async LoginModel(username) {
   const {data, error} = await db
    .from("admin")
    .select("*")
-   .or(`username.eq.${usernameOremail},email.eq.${usernameOremail}`)
-   .maybeSingle()
+   .eq("username", username)
+   .single()
 
   if (error) {
+   console.log("error from model", error.message)
    throw new Error(error.message)
   }
   return data
@@ -28,10 +29,14 @@ class AdminModel {
    .from("admin")
    .select("*")
    .or(`username.eq.${usernameOremail},email.eq.${usernameOremail}`)
+   .maybeSingle()
+
   if (error) {
+   console.log("from model", error.message)
    throw new Error(error.message)
   }
-  return data || []
+
+  return data || null
  }
 }
 
