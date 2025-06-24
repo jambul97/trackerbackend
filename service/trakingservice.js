@@ -95,7 +95,7 @@ class TrakingService {
 
  async GetTrakingByUserIdService(user_id) {
   try {
-   const tracking = await TrakingModel.GetTrakingByUserIdModel(user_id)
+   const tracking = await TrakingModel.GetTrakingByuUserIdModel(user_id)
    if (!tracking || tracking.length === 0) {
     return null
    }
