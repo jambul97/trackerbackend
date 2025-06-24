@@ -90,7 +90,7 @@ class TrakingModel {
             user_id,
             nama,
             telpon,
-            traking_session:traking_sessions(
+            tracking_session:tracking_sessions(
               tracking_session_id,
               start_time,
               end_time,
