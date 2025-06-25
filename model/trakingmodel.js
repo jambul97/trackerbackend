@@ -104,7 +104,8 @@ class TrakingModel {
                 jalur_id,
                 nama_jalur,
                 id_pos,
-                nama_pos
+                nama_pos,
+                keterangan
               )
             )
           `

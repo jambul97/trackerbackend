@@ -1,10 +1,11 @@
+import sessionsmodel from "../model/sessionsmodel.js"
 import SessionModel from "../model/sessionsmodel.js"
 import {getLocalTimestamp} from "../utils/time.js"
 
 class SessionService {
  async CreateSessionService({user_id, jalur_id, nama_jalur}) {
   try {
-   const start_time = getLocalTimestamp()              
+   const start_time = getLocalTimestamp()
    const status = "mulai pendakian"
    const session = await SessionModel.CreateSessionModel({user_id, start_time, jalur_id, nama_jalur, status})
    return session
@@ -21,6 +22,18 @@ class SessionService {
    const end_time = getLocalTimestamp()
    const status = "pendakian berakhir"
    const session = await SessionModel.EndSessionModel({tracking_session_id, end_time, status})
+   return session
+  } catch (error) {
+   throw new Error(error.message)
+  }
+ }
+
+ async SleepSessionService({tracking_session_id, status}) {
+  try {
+   if (!tracking_session_id) {
+    throw new Error("tracking_session_id is required")
+   }
+   const session = await SessionModel.SleepSessionModel({tracking_session_id, status})
    return session
   } catch (error) {
    throw new Error(error.message)
