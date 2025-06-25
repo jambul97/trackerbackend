@@ -51,15 +51,43 @@ class TrakingModel {
    const result = []
 
    for (let i = 0; i < trakingdata.length; i += max_batch) {
-    const batch = trakingdata.slice(i, i + max_batch)
+    const currentbatch = trakingdata.slice(i, i + max_batch)
 
-    const {data, error} = await db.from("tracking_log").insert(batch).select()
+    const batchData = currentbatch.map(
+      ({
+     tracking_session_id,
+     timestamp,
+     latitude,
+     longitude,
+     jalur_id,
+     nama_jalur,
+     id_pos,
+     nama_pos,
+     keterangan
+    }) => {
+      return {
+       tracking_session_id,
+       timestamp,
+       latitude,
+       longitude,
+       jalur_id,
+       nama_jalur,
+       id_pos,
+       nama_pos,
+       keterangan
+      }
+    }
+  )
+
+    const {data, error} = await db
+    .from("tracking_log")
+    .insert(batchData).select()
 
     if (error) {
      throw new Error(error.message)
     }
 
-    result.push(...(data || []))
+    result.push(...batchData || [])
 
     if (i + max_batch < trakingdata.length) {
      await new Promise((resolve) => setTimeout(resolve, 1000)) // throttle

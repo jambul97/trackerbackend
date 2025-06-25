@@ -1,6 +1,6 @@
 import TrakingModel from "../model/trakingmodel.js"
 import db from "../config/db.js"
-import { getLocalTimestamp, convertToLocal } from "../utils/time.js"
+import {getLocalTimestamp, convertToLocal} from "../utils/time.js"
 
 class TrakingService {
  async CreateTrakingService({
@@ -60,26 +60,44 @@ class TrakingService {
     throw new Error("Invalid tracking data format")
    }
 
-   const tracking_session_id = trakingdata[0].tracking_session_id
-   if (!tracking_session_id) {
-    throw new Error("tracking_session_id is required")
+   const validLogs = []
+
+   for (const log of trakingdata) {
+    const {tracking_session_id, timestamp, latitude, longitude, jalur_id, nama_jalur, id_pos, nama_pos, keterangan} =
+     log
+
+    // ✅ Cek session aktif
+    const session = await db
+     .from("tracking_sessions")
+     .select()
+     .eq("tracking_session_id", tracking_session_id)
+     .is("end_time", null)
+     .single()
+
+    if (!session) continue // ❌ skip log kalau session tidak valid
+
+    // ⏳ Convert timestamp
+    const localTimestamp = convertToLocal(timestamp)
+
+    validLogs.push({
+     tracking_session_id,
+     timestamp: localTimestamp,
+     latitude,
+     longitude,
+     jalur_id,
+     nama_jalur,
+     id_pos: id_pos === null ? null : id_pos,
+     nama_pos: id_pos === null ? "dalam pendakian" : nama_pos,
+     keterangan
+    })
    }
 
-   // Validate session exists and is active
-   const session = await db.from("tracking_sessions").select().eq("tracking_session_id", tracking_session_id).single()
-
-   if (!session || session.status !== "aktif") {
-    throw new Error("Session tidak valid atau tidak aktif")
+   if (validLogs.length === 0) {
+    throw new Error("Tidak ada log yang valid untuk disimpan")
    }
 
-   const processedData = trakingdata.map((tracking) => ({
-    ...tracking,
-    timestamp: convertToLocal(tracking.timestamp),
-    id_pos: tracking.id_pos === null ? null : tracking.id_pos,
-    nama_pos: tracking.id_pos === null ? "dalam pendakian" : tracking.nama_pos
-   }))
-
-   await TrakingModel.insertTrakingBatchModel(processedData)
+   const result = await TrakingModel.insertTrakingBatchModel(validLogs)
+   return result
   } catch (error) {
    throw new Error(error.message)
   }
