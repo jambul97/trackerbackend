@@ -42,6 +42,7 @@ class TrakingService {
     timestamp,
     latitude,
     longitude,
+    accuracy,
     jalur_id,
     nama_jalur,
     id_pos,
@@ -63,8 +64,18 @@ class TrakingService {
    const validLogs = []
 
    for (const log of trakingdata) {
-    const {tracking_session_id, timestamp, latitude, longitude, jalur_id, nama_jalur, id_pos, nama_pos, keterangan} =
-     log
+    const {
+     tracking_session_id,
+     timestamp,
+     latitude,
+     longitude,
+     accuracy,
+     jalur_id,
+     nama_jalur,
+     id_pos,
+     nama_pos,
+     keterangan
+    } = log
 
     // ✅ Cek session aktif
     const session = await db
@@ -84,6 +95,7 @@ class TrakingService {
      timestamp: localTimestamp,
      latitude,
      longitude,
+     accuracy,
      jalur_id,
      nama_jalur,
      id_pos: id_pos === null ? null : id_pos,

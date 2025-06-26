@@ -30,13 +30,25 @@ const rateLimiter = {
 class TrakingController {
     async CreateTrakingController(req, res) {
         try {
-            const { tracking_session_id, timestamp, latitude, longitude, jalur_id, nama_jalur, id_pos, nama_pos, keterangan } = req.body
+            const {
+             tracking_session_id,
+             timestamp,
+             latitude,
+             longitude,
+             accuracy,
+             jalur_id,
+             nama_jalur,
+             id_pos,
+             nama_pos,
+             keterangan
+            } = req.body
 
             const result = await TrakingService.CreateTrakingService({
                 tracking_session_id,
                 timestamp,
                 latitude,
                 longitude,
+                accuracy,
                 jalur_id,
                 nama_jalur,
                 id_pos,
