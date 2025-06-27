@@ -130,6 +130,7 @@ class TrakingModel {
                 tracking_log_id,
                 tracking_session_id,
                 timestamp,
+                created_at,
                 latitude,
                 longitude,
                 accuracy,
