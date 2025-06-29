@@ -8,6 +8,7 @@ class TrakingService {
   timestamp,
   latitude,
   longitude,
+  accuracy,
   jalur_id,
   nama_jalur,
   id_pos,
