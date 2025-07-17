@@ -6,7 +6,9 @@ import jwt from "jsonwebtoken"
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
 class UsersService {
- async SignUpUserService({nama, alamat, tanggal_lahir, umur, username, email, password, telepon}) {
+ async SignUpUserService({nama, alamat, tanggal_lahir, umur, username, email, password, telepon, kontak_darurat, register_id, jenis_kelamin}) {
+
+
   const existingUser = await UserModel.FindUserByUsernameAndEmailModel({username, email})
 
   if (existingUser.length > 0) {
@@ -31,7 +33,10 @@ class UsersService {
    username,
    email,
    password: hashedPassword,
-   telepon
+   telepon,
+   kontak_darurat,
+   register_id,
+   jenis_kelamin,
   })
 
   const newUser = await UserModel.FindUserByUsernameAndEmailModel({username, email})
@@ -95,6 +100,7 @@ class UsersService {
    tanggal_lahir: null,
    umur: null,
    telepon: null,
+   telepon_keluarga: null,
    provider: "google"
   })
 

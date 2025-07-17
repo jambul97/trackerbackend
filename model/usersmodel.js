@@ -1,10 +1,24 @@
 import db from "../config/db.js"
 
 class UsersModel {
- async SignupUserModel({nama, alamat, tanggal_lahir, umur, username, email, password, telepon}) {
+ async SignupUserModel({
+  nama,
+  alamat,
+  tanggal_lahir,
+  umur,
+  username,
+  email,
+  password,
+  telepon,
+  kontak_darurat,
+  register_id,
+  jenis_kelamin
+ }) {
   const {data, error} = await db
    .from("users")
-   .insert([{nama, alamat, tanggal_lahir, umur, username, email, password, telepon}])
+   .insert([
+    {nama, alamat, tanggal_lahir, umur, username, email, password, telepon, kontak_darurat, register_id, jenis_kelamin}
+   ])
 
   if (error) {
    throw new Error(error.message)

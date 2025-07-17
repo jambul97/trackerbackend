@@ -6,6 +6,9 @@ import sessionRouter from "./route/sessionsroute.js"
 import trakingRouter from "./route/trakingroute.js"
 import adminRouter from "./route/adminroute.js"
 import ngrok from "ngrok" // <– Tambahkan import ini
+import RegisterRouter from "./route/registerroute.js"
+import userBookingRouter from "./route/user_bookingroute.js"
+import statusPendakianRouter from "./route/status_pendakianroute.js"
 
 dotenv.config()
 
@@ -19,6 +22,9 @@ app.use("/admin", adminRouter)
 app.use("/users", userRouter)
 app.use("/sessions", sessionRouter)
 app.use("/tracking", trakingRouter)
+app.use("/register", RegisterRouter)
+app.use("/userbooking", userBookingRouter)
+app.use("/statuspendakian", statusPendakianRouter)
 
 app.use((err, req, res, next) => {
  console.error(err.stack)

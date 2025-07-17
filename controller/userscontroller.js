@@ -4,7 +4,8 @@ import UsersService from "../service/usersservice.js"
 class UsersController {
     async SignUpUserController(req, res) {
         try {
-            const { nama, alamat, tanggal_lahir, umur, username, email, password, telepon } = req.body
+            const { nama, alamat, tanggal_lahir, umur, username, email, password, telepon, kontak_darurat, jenis_kelamin } = req.body
+
             const user = await UsersService.SignUpUserService({
                 nama,
                 alamat,
@@ -13,7 +14,10 @@ class UsersController {
                 username,
                 email,
                 password,
-                telepon
+                telepon,
+                kontak_darurat,
+                jenis_kelamin,
+
             })
             res.status(201).json({
                 success: true,
